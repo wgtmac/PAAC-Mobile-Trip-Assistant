@@ -1,0 +1,80 @@
+#price
+{
+	color:black;
+    font-family:verdana;
+    font-size:100%;
+
+}
+#insurance
+{
+	color:blue;
+    font-family:verdana;
+    font-weight:bold;
+	font-size:100%;
+
+}
+.link{
+    text-decoration: none; 
+    color: black; 
+}
+
+.hr {
+     color:#909090;
+     background: #909090;
+     width: 100%; 
+     height: 5px;
+}
+.hr1 {
+     color:black;
+     background:;
+     width: 100%; 
+     height: 2px;
+}
+.hrsmall {
+     color:#909090;
+     background: #909090;
+     width: 100%; 
+     height: 2px;
+}
+.button1 {
+	font-size: 15px;
+	background: #8080ff;
+	color: white;
+	border-radius: 32px;
+	border-color: #8080ff ;
+	padding: 5px 10px;
+}
+
+
+.button1:hover{
+	border-color: #0000a0;
+   background: #0000a0;
+   color: white;
+}
+
+.button1:active {
+   border-color: #c0c0c0 ;
+   background: #8080c0;
+   color:white;
+   }
+
+.button2 {
+	font-size: 15px;
+	background: #8080ff;
+	color: white;
+	border-radius: 32px;
+	border-color: #8080ff ;
+	padding: 5px 10px;
+}
+
+.button2:hover{
+	border-color: #0000a0;
+   background: #0000a0;
+   color: white;
+}
+
+.button2:active {
+   border-color: #c0c0c0 ;
+   background: #8080c0;
+   color:white;
+   }
