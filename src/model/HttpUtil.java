@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 import java.io.IOException;  
 
@@ -53,27 +53,27 @@ public class HttpUtil {
           
     }  
     /* 
-     * ¼ì²é·µ»ØÖµÊÇ·ñÓÐÐ§£¬¼ì²éjsonÖµÊÇ·ñÓÐÐ§ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jsonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
      */  
     private boolean checkValid(){  
         return mRes == null || json == null;  
     }  
     /* 
-     * È¡µÃ·þÎñ¶Ë»Ø¸´µÄ×´Ì¬. 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. 
      */  
     public String getStatus(){  
         if (checkValid()) return errorMessage;  
         return mRes.getStatusLine().toString();  
     }  
     /* 
-     * È¡µÃ×´Ì¬Âë 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
      */  
     public String getStatusCode(){  
         if (checkValid()) return errorMessage;  
         return Integer.valueOf(mRes.getStatusLine().getStatusCode()).toString();  
     }  
     /* 
-     * È¡µÃ·µ»ØµÄmessageÐÅÏ¢ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½messageï¿½ï¿½ï¿½ï¿½ 
      */  
     public String getMessage(){  
         if (checkValid()) return errorMessage;  
@@ -86,15 +86,15 @@ public class HttpUtil {
         return errorMessage;  
     }  
     /* 
-     * ·µ»ØÕû¸ödataÐÅÏ¢£¬×Ö·û´®±íÊ¾ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
      */  
     public String getDataString(){  
         if (checkValid()) return errorMessage;  
         return data.toString();  
     }  
     /* 
-     * Ä¬ÈÏ·µ»ØÊý¾ÝÊÇjson¸ñÊ½£¬Ö÷jsonÖÐÓÐÒ»¸ö×ÓÊ÷data£¬Ä¬ÈÏdataÊÇÎÒÃÇµÄÒª´¦ÀíµÄjsonÊý¾Ý 
-     * ´Ë´¦·µ»ØdataµÄÒ»¸ö¼ükeyµÄÖµ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jsonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jsonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jsonï¿½ï¿½ï¿½ï¿½ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dataï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½keyï¿½ï¿½ï¿½ï¿½ 
      */  
     public String getDataItem(String key){  
         if (checkValid()) return errorMessage;  

@@ -1,4 +1,3 @@
-
 package controller;
 
 import java.io.IOException;
@@ -12,132 +11,112 @@ import javax.servlet.http.HttpSession;
 
 import org.genericdao.RollbackException;
 
-
-
 public class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	public void init() throws ServletException {
-//        Model model = new Model(getServletConfig());
-//		EmployeeDAO employeeDAO = model.getEmployeeDAO();
-//
-//
-        Action.add(new LoginAction());
-		
-//        try {
-//			if (employeeDAO.getCount() == 0) {
-//			EmployeeBean admin = new EmployeeBean();
-//			admin.setFirstName("Jeff");
-//			admin.setLastName("Eppinger");
-//			admin.setPassword("123");
-//			//admin.setHashedPassword("123");
-//			admin.setUserName("obama");
-//			employeeDAO.createAutoIncrement(admin);
-//			}
-//        }catch (RollbackException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-    }
+		// Model model = new Model(getServletConfig());
+		// EmployeeDAO employeeDAO = model.getEmployeeDAO();
+		//
+		//
+		Action.add(new LoginAction());
+		Action.add(new TripPlanAction());
+		Action.add(new SearchAction());
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request,response);
-    }
+		// try {
+		// if (employeeDAO.getCount() == 0) {
+		// EmployeeBean admin = new EmployeeBean();
+		// admin.setFirstName("Jeff");
+		// admin.setLastName("Eppinger");
+		// admin.setPassword("123");
+		// //admin.setHashedPassword("123");
+		// admin.setUserName("obama");
+		// employeeDAO.createAutoIncrement(admin);
+		// }
+		// }catch (RollbackException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+	}
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nextPage = performTheAction(request);
-        sendToNextPage(nextPage,request,response);
-    }
-    
-    /*
-     * Extracts the requested action and (depending on whether the user is logged in)
-     * perform it (or make the user login).
-     * @param request
-     * @return the next page (the view)
-     */
-    private String performTheAction(HttpServletRequest request) {
-        HttpSession session     = request.getSession(true);
-        String      servletPath = request.getServletPath();
-        
-//        CustomerBean cUser = null;
-//        EmployeeBean eUser = null;
-//        if(session.getAttribute("user") instanceof CustomerBean){
-//        	cUser = (CustomerBean) session.getAttribute("user");
-//        }
-//        else if(session.getAttribute("user") instanceof CustomerBean){
-//        	eUser = (EmployeeBean) session.getAttribute("user");
-//        }
-//        
-//
-//        CustomerBean customer=(CustomerBean)request.getSession().getAttribute("customer");
-//        EmployeeBean employee=(EmployeeBean)request.getSession().getAttribute("employee");
-//        if (customer == null && employee == null) {
-//			// If the user hasn't logged in, so login is the only option
-//			return Action.perform("login.do", request);
-//		}
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
 
-        String action = getActionName(servletPath);
-        
-//        if (cUser==null && eUser==null) {
-//        	// If the user hasn't logged in, so login is the only option
-//			//return Action.perform("transition-day.do",request);
-//        	return Action.perform("viewcustomer.do",request);
-//        }
-        
-        if (action.equals("welcome")) {
-        	// User is logged in, but at the root of our web app
-        	//return Action.perform("viewcustomer.do",request);
-        	//return Action.perform("requestcheck.do",request);
-        	//return Action.perform("edeposit.do",request);
-        	//return Action.perform("test.do",request);
-        	//return Action.perform("transition-day.do",request);
-        	//return Action.perform("cregister.do",request);
-        	//return Action.perform("eregister.do",request);
-        	return Action.perform("login.do",request);
-        	//return Action.perform("viewdetail.do",request);
-        	//return Action.perform("echangepwd.do",request);
-        	//return Action.perform("cchangepwd.do",request);
-        }
-        
-      	// Let the logged in user run his chosen action
-		return Action.perform(action,request);
-    }
-    
-    /*
-     * If nextPage is null, send back 404
-     * If nextPage ends with ".do", redirect to this page.
-     * If nextPage ends with ".jsp", dispatch (forward) to the page (the view)
-     *    This is the common case
-     */
-    private void sendToNextPage(String nextPage, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    	if (nextPage == null) {
-    		response.sendError(HttpServletResponse.SC_NOT_FOUND,request.getServletPath());
-    		return;
-    	}
-    	
-    	if (nextPage.endsWith(".do")) {
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String nextPage = performTheAction(request);
+		sendToNextPage(nextPage, request, response);
+	}
+
+	/*
+	 * Extracts the requested action and (depending on whether the user is
+	 * logged in) perform it (or make the user login).
+	 * 
+	 * @param request
+	 * 
+	 * @return the next page (the view)
+	 */
+	private String performTheAction(HttpServletRequest request) {
+		HttpSession session = request.getSession(true);
+		String servletPath = request.getServletPath();
+
+		String action = getActionName(servletPath);
+
+		if (action.equals("welcome")) {
+			// User is logged in, but at the root of our web app
+			return Action.perform("login.do", request);
+		}
+
+		// Let the logged in user run his chosen action
+		return Action.perform(action, request);
+	}
+
+	/*
+	 * If nextPage is null, send back 404 If nextPage ends with ".do", redirect
+	 * to this page. If nextPage ends with ".jsp", dispatch (forward) to the
+	 * page (the view) This is the common case
+	 */
+	private void sendToNextPage(String nextPage, HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		if (nextPage == null) {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND,
+					request.getServletPath());
+			return;
+		}
+
+		if (nextPage.endsWith(".do")) {
 			response.sendRedirect(nextPage);
 			return;
-    	}
-    	
-    	if (nextPage.endsWith(".jsp")) {
-	   		RequestDispatcher d = request.getRequestDispatcher("WEB-INF/" + nextPage);
-	   		d.forward(request,response);
-	   		return;
-    	}
-    	
-    	
-    	throw new ServletException(Controller.class.getName()+".sendToNextPage(\"" + nextPage + "\"): invalid extension.");
-    }
+		}
+
+		if (nextPage.endsWith(".jsp")) {
+			RequestDispatcher d = request.getRequestDispatcher("WEB-INF/"
+					+ nextPage);
+			d.forward(request, response);
+			return;
+		}
+
+		System.out.println(nextPage);
+
+		if (nextPage.startsWith("#")) {
+			response.sendRedirect(nextPage);
+			return;
+		}
+
+		throw new ServletException(Controller.class.getName()
+				+ ".sendToNextPage(\"" + nextPage + "\"): invalid extension.");
+	}
 
 	/*
 	 * Returns the path component after the last slash removing any "extension"
 	 * if present.
 	 */
-    private String getActionName(String path) {
-    	// We're guaranteed that the path will start with a slash
-        int slash = path.lastIndexOf('/');
-        return path.substring(slash+1);
-    }
+	private String getActionName(String path) {
+		// We're guaranteed that the path will start with a slash
+		int slash = path.lastIndexOf('/');
+		return path.substring(slash + 1);
+	}
 }
