@@ -24,7 +24,8 @@ public class Controller extends HttpServlet {
 //
 //
         Action.add(new LoginAction());
-		
+        Action.add(new ShowRoutesOnMapAction());
+        
 //        try {
 //			if (employeeDAO.getCount() == 0) {
 //			EmployeeBean admin = new EmployeeBean();
