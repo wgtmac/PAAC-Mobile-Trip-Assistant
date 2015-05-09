@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.genericdao.RollbackException;
-
 public class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +21,7 @@ public class Controller extends HttpServlet {
 		Action.add(new LoginAction());
 		Action.add(new TripPlanAction());
 		Action.add(new SearchAction());
+		Action.add(new AccountAction());
 
 		// try {
 		// if (employeeDAO.getCount() == 0) {
