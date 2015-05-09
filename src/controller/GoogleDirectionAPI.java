@@ -59,7 +59,7 @@ public class GoogleDirectionAPI {
     	String method = "GET";  
     	String server_url = "http://maps.googleapis.com/maps/api/directions/";
     	String url = server_url + "json?origin=Brooklyn&destination=Queens&sensor=false&departure_time=1343605500&mode=transit";
-    	HttpUtil hu = new HttpUtil(method, url);
-    	hu.excute();  
+    	GoogleDirectionAPI hu = new GoogleDirectionAPI(method, url);
+    	hu.execute();  
     }
 }

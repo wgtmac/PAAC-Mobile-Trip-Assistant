@@ -13,14 +13,6 @@
     <servlet-class>
         	controller.Controller
         </servlet-class>
-    <init-param>
-      <param-name>jdbcDriverName</param-name>
-      <param-value>   com.mysql.jdbc.Driver   </param-value>
-    </init-param>
-    <init-param>
-      <param-name>jdbcURL</param-name>
-      <param-value>   jdbc:mysql:///test      </param-value>
-    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>controller-servlet</servlet-name>

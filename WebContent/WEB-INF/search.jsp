@@ -15,11 +15,10 @@
 <body>
 
 
-	<div data-role="page" id="home">
+	<div data-role="page" id="search">
 		<div data-role="header">
-			<h1>Trip Planner</h1>
+			<h1>Search</h1>
 		</div>
-
 
 		<div data-role="content">
 
@@ -35,27 +34,40 @@
 				<h3 style="color: red">${error}</h3>
 			</c:forEach>
 
-			<form method="post" action="tripplan.do">
-				<div data-role="fieldcontain">
-					<label for="origin">Origin</label> <input type="text" name="origin"
-						id="ori"> <label for="destination">Destination</label> <input
-						type="text" name="destination" id="dst"> </br>
 
-					<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
-						data-expanded-icon="arrow-u">
-						<legend>Date/Time</legend>
-
-						<label for="time">Date / Time</label> <input type="datetime-local"
-							data-clear-btn="true" name="time" id="time" value=""> <label
-							for="type">Type</label> <select name="type" id="type">
-							<option value="dep">Departure</option>
-							<option value="arr">Arrival</option>
-						</select>
-					</fieldset>
-
-				</div>
-				<input type="submit" data-inline="false" name="action" value="Go">
+			<form method="post" action="account.do">
+				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
+					data-expanded-icon="arrow-u">
+					<legend>Bus Stop</legend>
+					<p>Search degsinated bus stop</p>
+					<label for="busstop">Bus Stop Name</label> <input type="text"
+						name="busstop" id="busstop"> <input type="submit"
+						data-inline="true" name="acction" value="Search Bus Stop">
+				</fieldset>
 			</form>
+
+			<form method="post" action="account.do">
+				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
+					data-expanded-icon="arrow-u">
+					<legend>Bus Line</legend>
+					<p>Search degsinated bus line</p>
+					<label for="busline">Bus Line Name</label> <input type="text"
+						name="busline" id="busline"> <input type="submit"
+						data-inline="true" name="action" value="Search Bus Line">
+				</fieldset>
+			</form>
+
+			<form method="post" action="account.do">
+				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
+					data-expanded-icon="arrow-u">
+					<legend>Nearby</legend>
+					<p>Search bus stops and bus lines nearby</p>
+					<input type="submit" data-inline="true" name="action"
+						value="Search Nearby">
+				</fieldset>
+			</form>
+
+
 		</div>
 
 		<div data-role="footer" data-position="fixed">
@@ -68,8 +80,6 @@
 			</div>
 		</div>
 	</div>
-
-
 
 </body>
 </html>

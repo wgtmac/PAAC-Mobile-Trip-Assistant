@@ -1,4 +1,3 @@
-
 package controller;
 
 import java.io.IOException;
@@ -10,36 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.genericdao.RollbackException;
-
-
-
 public class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	public void init() throws ServletException {
-//        Model model = new Model(getServletConfig());
-//		EmployeeDAO employeeDAO = model.getEmployeeDAO();
-//
-//
         Action.add(new LoginAction());
         Action.add(new ShowRoutesOnMapAction());
         
-//        try {
-//			if (employeeDAO.getCount() == 0) {
-//			EmployeeBean admin = new EmployeeBean();
-//			admin.setFirstName("Jeff");
-//			admin.setLastName("Eppinger");
-//			admin.setPassword("123");
-//			//admin.setHashedPassword("123");
-//			admin.setUserName("obama");
-//			employeeDAO.createAutoIncrement(admin);
-//			}
-//        }catch (RollbackException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,45 +37,12 @@ public class Controller extends HttpServlet {
     private String performTheAction(HttpServletRequest request) {
         HttpSession session     = request.getSession(true);
         String      servletPath = request.getServletPath();
-        
-//        CustomerBean cUser = null;
-//        EmployeeBean eUser = null;
-//        if(session.getAttribute("user") instanceof CustomerBean){
-//        	cUser = (CustomerBean) session.getAttribute("user");
-//        }
-//        else if(session.getAttribute("user") instanceof CustomerBean){
-//        	eUser = (EmployeeBean) session.getAttribute("user");
-//        }
-//        
-//
-//        CustomerBean customer=(CustomerBean)request.getSession().getAttribute("customer");
-//        EmployeeBean employee=(EmployeeBean)request.getSession().getAttribute("employee");
-//        if (customer == null && employee == null) {
-//			// If the user hasn't logged in, so login is the only option
-//			return Action.perform("login.do", request);
-//		}
 
         String action = getActionName(servletPath);
         
-//        if (cUser==null && eUser==null) {
-//        	// If the user hasn't logged in, so login is the only option
-//			//return Action.perform("transition-day.do",request);
-//        	return Action.perform("viewcustomer.do",request);
-//        }
-        
         if (action.equals("welcome")) {
         	// User is logged in, but at the root of our web app
-        	//return Action.perform("viewcustomer.do",request);
-        	//return Action.perform("requestcheck.do",request);
-        	//return Action.perform("edeposit.do",request);
-        	//return Action.perform("test.do",request);
-        	//return Action.perform("transition-day.do",request);
-        	//return Action.perform("cregister.do",request);
-        	//return Action.perform("eregister.do",request);
         	return Action.perform("login.do",request);
-        	//return Action.perform("viewdetail.do",request);
-        	//return Action.perform("echangepwd.do",request);
-        	//return Action.perform("cchangepwd.do",request);
         }
         
       	// Let the logged in user run his chosen action
@@ -120,25 +64,25 @@ public class Controller extends HttpServlet {
     	if (nextPage.endsWith(".do")) {
 			response.sendRedirect(nextPage);
 			return;
-    	}
-    	
+		}
+
     	if (nextPage.endsWith(".jsp")) {
 	   		RequestDispatcher d = request.getRequestDispatcher("WEB-INF/" + nextPage);
 	   		d.forward(request,response);
 	   		return;
     	}
     	
-    	
-    	throw new ServletException(Controller.class.getName()+".sendToNextPage(\"" + nextPage + "\"): invalid extension.");
-    }
+		throw new ServletException(Controller.class.getName()
+				+ ".sendToNextPage(\"" + nextPage + "\"): invalid extension.");
+	}
 
 	/*
 	 * Returns the path component after the last slash removing any "extension"
 	 * if present.
 	 */
-    private String getActionName(String path) {
-    	// We're guaranteed that the path will start with a slash
-        int slash = path.lastIndexOf('/');
-        return path.substring(slash+1);
-    }
+	private String getActionName(String path) {
+		// We're guaranteed that the path will start with a slash
+		int slash = path.lastIndexOf('/');
+		return path.substring(slash + 1);
+	}
 }
