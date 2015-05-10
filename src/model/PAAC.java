@@ -2,14 +2,24 @@ package model;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import databean.Itinerary;
+import databean.Transit;
 
 public class PAAC {
-	private final String key = "E9FnEmgTkNcyY6nrJAkzXBZeR";
+	private final String paacKey = "key=E9FnEmgTkNcyY6nrJAkzXBZeR&format=json";
+	private final String ggmapkey = "key=AIzaSyBRqN6BsdiUVqi2MlA41WKC_TTO40Zlw30";
+	private final String paacServer = "http://realtime.portauthority.org/bustime/api/v2/";
+	private final String ggmapServer = "https://maps.googleapis.com/maps/api/directions/json?mode=transit&alternatives=true";
 	
 	public String getTime () {
 		String method = "GET";
-		String server_url = "http://realtime.portauthority.org/bustime/api/v2/";
-		String url = server_url + "gettime?key=" + key + "&format=json";
+		String url = paacServer + "gettime?" + paacKey;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
 		return hu.getDataString();
@@ -18,9 +28,8 @@ public class PAAC {
 	// get bus line number and its name & color "71A - Negley"
 	public String getRoute () {
 		String method = "GET";
-		String server_url = "http://realtime.portauthority.org/bustime/api/v2/";
-		String url = server_url + "getroutes?key=" + key;
-		url += "&format=json";
+
+		String url = paacServer + "getroutes?" + paacKey;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
 		return hu.getDataString();
@@ -29,9 +38,7 @@ public class PAAC {
 	// get real-time vehicle for a bus line
 	public String getVehicles (String route) {
 		String method = "GET";
-		String server_url = "http://realtime.portauthority.org/bustime/api/v2/";
-		String url = server_url + "getvehicles?key=" + key + "&rt=" + route;
-		url += "&format=json";
+		String url = paacServer + "getvehicles?" + paacKey + "&rt=" + route;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
 		return hu.getDataString();
@@ -40,9 +47,7 @@ public class PAAC {
 	// get available directions for a route
 	public String getDirections (String route) {
 		String method = "GET";
-		String server_url = "http://realtime.portauthority.org/bustime/api/v2/";
-		String url = server_url + "getdirections?key=" + key + "&rt=" + route;
-		url += "&format=json";
+		String url = paacServer + "getdirections?" + paacKey + "&rt=" + route;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
 		return hu.getDataString();
@@ -51,9 +56,7 @@ public class PAAC {
 	// get all busstops for a route in one direction
 	public String getStops (String route, String dir) {
 		String method = "GET";
-		String server_url = "http://realtime.portauthority.org/bustime/api/v2/";
-		String url = server_url + "getstops?key=" + key + "&rt=" + route + "&dir=" + dir;
-		url += "&format=json";
+		String url = paacServer + "getstops?" + paacKey + "&rt=" + route + "&dir=" + dir;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
 		return hu.getDataString();
@@ -62,9 +65,7 @@ public class PAAC {
 	// get the entire sequence of a bus route (src - dst - src)
 	public String getPattern (String route) {
 		String method = "GET";
-		String server_url = "http://realtime.portauthority.org/bustime/api/v2/";
-		String url = server_url + "getpatterns?key=" + key + "&rt=" + route;
-		url += "&format=json";
+		String url = paacServer + "getpatterns?" + paacKey + "&rt=" + route;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
 		return hu.getDataString();
@@ -73,12 +74,76 @@ public class PAAC {
 	// predict the time for a bus to a stop
 	public String getPrediction (String route, String stopid) {
 		String method = "GET";
-		String server_url = "http://realtime.portauthority.org/bustime/api/v2/";
-		String url = server_url + "getpredictions?key=" + key + "&rt=" + route + "&stpid" + stopid;
-		url += "&format=json";
+		String url = paacServer + "getpredictions?" + paacKey + "&rt=" + route + "&stpid" + stopid;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
 		return hu.getDataString();
+	}
+	
+	public ArrayList<Itinerary> getTripPlan (String ori, String dst) throws UnsupportedEncodingException, JSONException {
+		String url = ggmapServer + "&" + ggmapkey 
+				+ "&origin=" + URLEncoder.encode(ori, "UTF-8") 
+				+ "&destination=" + URLEncoder.encode(dst, "UTF-8");
+		HttpUtil hu = new HttpUtil("GET", url);
+		hu.excute();
+		
+		ArrayList<Itinerary> list = new ArrayList<Itinerary> ();
+		
+		JSONArray routes = hu.getData().getJSONArray("routes");
+		
+		System.out.println("Route : " + routes.length());
+		
+		for (int i = 0; i < routes.length(); ++i) {
+			JSONObject leg = routes.getJSONObject(i).getJSONArray("legs").getJSONObject(0);
+			JSONArray steps = leg.getJSONArray("steps");
+			
+			Itinerary itinerary = new Itinerary();
+			itinerary.setOrigin(ori);
+			itinerary.setDestination(dst);
+			itinerary.setArrTime(leg.getJSONObject("arrival_time").getString("text"));
+			itinerary.setDepartTime(leg.getJSONObject("departure_time").getString("text"));
+			itinerary.setDistance(leg.getJSONObject("distance").getString("text"));
+			itinerary.setDuration(leg.getJSONObject("duration").getString("text"));
+			itinerary.setStartAddr(leg.getString("start_address"));
+			itinerary.setEndAddr(leg.getString("end_address"));
+			itinerary.setStartLat(leg.getJSONObject("start_location").get("lat").toString());
+			itinerary.setEndLat(leg.getJSONObject("end_location").get("lat").toString());
+			itinerary.setStartLng(leg.getJSONObject("start_location").get("lng").toString());
+			itinerary.setStartLng(leg.getJSONObject("end_location").get("lng").toString());
+			
+
+			for (int j = 0; j < steps.length(); ++j) {
+				JSONObject step = steps.getJSONObject(j);
+				if(step.get("travel_mode").toString().equals("TRANSIT")) {
+					Transit tran = new Transit();
+					
+					tran.setDistance(step.getJSONObject("distance").getString("text"));
+					tran.setDuration(step.getJSONObject("duration").getString("text"));
+//					tran.setStartLat(step.getJSONObject("start_location").getString("lat"));
+//					tran.setStartLng(step.getJSONObject("start_location").getString("lng"));
+//					tran.setEndLat(step.getJSONObject("end_location").getString("lat"));
+//					tran.setEndLng(step.getJSONObject("end_location").getString("lng"));
+					
+					tran.setOriStop(step.getJSONObject("transit_details").getJSONObject("departure_stop").getString("name"));
+					tran.setDestStop(step.getJSONObject("transit_details").getJSONObject("arrival_stop").getString("name"));
+					tran.setNumStops(step.getJSONObject("transit_details").get("num_stops").toString());
+					
+					tran.setDepartTime(step.getJSONObject("transit_details").getJSONObject("departure_time").getString("text"));
+					tran.setArrTime(step.getJSONObject("transit_details").getJSONObject("arrival_time").getString("text"));
+					tran.setStartLat(step.getJSONObject("transit_details").getJSONObject("departure_stop").getJSONObject("location").get("lat").toString());
+					tran.setStartLng(step.getJSONObject("transit_details").getJSONObject("departure_stop").getJSONObject("location").get("lng").toString());
+					tran.setEndLat(step.getJSONObject("transit_details").getJSONObject("arrival_stop").getJSONObject("location").get("lat").toString());
+					tran.setEndLng(step.getJSONObject("transit_details").getJSONObject("arrival_stop").getJSONObject("location").get("lng").toString());
+					
+					tran.setBusline(step.getJSONObject("transit_details").getJSONObject("line").getString("short_name"));
+					
+					itinerary.getRoutes().add(tran);
+				}
+			}
+			list.add(itinerary);
+		}
+		
+		return list;
 	}
 	
 	public static void main(String[] args) {

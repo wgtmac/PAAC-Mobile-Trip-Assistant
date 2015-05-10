@@ -17,7 +17,7 @@ public class TripPlanForm extends FormBean {
 	}
 
 	public void setOrigin(String v) {
-		this.origin = v;
+		this.origin = v.trim();
 	}
 
 	public String getDestination() {
@@ -25,7 +25,7 @@ public class TripPlanForm extends FormBean {
 	}
 
 	public void setDestination(String v) {
-		this.destination = v;
+		this.destination = v.trim();
 	}
 
 	public String getTime() {

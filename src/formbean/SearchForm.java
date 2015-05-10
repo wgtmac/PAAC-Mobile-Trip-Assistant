@@ -15,7 +15,7 @@ public class SearchForm extends FormBean {
 	}
 
 	public void setBusline(String v) {
-		this.busline = v;
+		this.busline = v.trim();
 	}
 
 	public String getBusstop() {
@@ -23,7 +23,7 @@ public class SearchForm extends FormBean {
 	}
 
 	public void setBusstop(String v) {
-		this.busstop = v;
+		this.busstop = v.trim();
 	}
 
 	public String getAction() {

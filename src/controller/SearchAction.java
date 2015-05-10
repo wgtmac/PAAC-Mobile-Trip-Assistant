@@ -40,6 +40,13 @@ public class SearchAction extends Action {
 				return "search.jsp";
 			}
 			
+			if (form.getAction().equals("Search Bus Line")) {
+				String route = form.getBusline();
+				
+				
+				System.out.println(route);
+			}
+			
 
 	
 			return "search.jsp";

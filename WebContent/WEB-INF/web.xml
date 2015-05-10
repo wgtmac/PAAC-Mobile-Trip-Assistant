@@ -20,6 +20,6 @@
   </servlet-mapping>
 
   <welcome-file-list>
-    <welcome-file> showRoutesOnMap.do </welcome-file>
+    <welcome-file> tripplan.do </welcome-file>
   </welcome-file-list>
 </web-app>

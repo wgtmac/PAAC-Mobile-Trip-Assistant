@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,30 +11,36 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 
+import model.PAAC;
+
+import org.json.JSONException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.mybeans.form.FormBeanException;
 import org.mybeans.form.FormBeanFactory;
 import org.xml.sax.SAXException;
 
+import databean.Itinerary;
 import formbean.TripPlanForm;
 
 public class TripPlanAction extends Action {
-	private FormBeanFactory<TripPlanForm> formBeanFactory = FormBeanFactory.getInstance(TripPlanForm.class);
+	private FormBeanFactory<TripPlanForm> formBeanFactory = FormBeanFactory
+			.getInstance(TripPlanForm.class);
 
-	
 	public TripPlanAction() {
 	}
 
-	public String getName() { return "tripplan.do"; }
+	public String getName() {
+		return "tripplan.do";
+	}
 
 	public String perform(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		List<String> errors = new ArrayList<String>();
 		request.setAttribute("errors", errors);
-		
+
 		try {
-			
+
 			TripPlanForm form = formBeanFactory.create(request);
 			request.setAttribute("form", form);
 
@@ -46,12 +53,24 @@ public class TripPlanAction extends Action {
 			if (errors.size() != 0) {
 				return "index.jsp";
 			}
-			
-	
+
+			PAAC paac = new PAAC();
+			ArrayList<Itinerary> triplist;
+			triplist = paac.getTripPlan(form.getOrigin(), form.getDestination());
+
+			if (triplist != null) {
+				request.setAttribute("tripresult", triplist);
+				request.setAttribute("origin", form.getOrigin());
+				request.setAttribute("dest", form.getDestination());
+			} else {
+				errors.add("Not valid input");
+				return "index.jsp";
+			}
+
 			return "triplist.jsp";
-		} catch (FormBeanException e) {
-        	errors.add(e.getMessage());
-        	return "index.jsp";
+		} catch (UnsupportedEncodingException | JSONException | FormBeanException e) {
+			errors.add(e.getMessage());
+			return "index.jsp";
 		}
 	}
 }

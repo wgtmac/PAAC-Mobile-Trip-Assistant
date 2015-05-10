@@ -35,18 +35,18 @@
 			</c:forEach>
 
 
-			<form method="post" action="account.do">
+			<form method="post" action="search.do">
 				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
 					data-expanded-icon="arrow-u">
 					<legend>Bus Stop</legend>
 					<p>Search degsinated bus stop</p>
 					<label for="busstop">Bus Stop Name</label> <input type="text"
 						name="busstop" id="busstop"> <input type="submit"
-						data-inline="true" name="acction" value="Search Bus Stop">
+						data-inline="true" name="action" value="Search Bus Stop">
 				</fieldset>
 			</form>
 
-			<form method="post" action="account.do">
+			<form method="post" action="search.do">
 				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
 					data-expanded-icon="arrow-u">
 					<legend>Bus Line</legend>
@@ -57,7 +57,7 @@
 				</fieldset>
 			</form>
 
-			<form method="post" action="account.do">
+			<form method="post" action="search.do">
 				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
 					data-expanded-icon="arrow-u">
 					<legend>Nearby</legend>

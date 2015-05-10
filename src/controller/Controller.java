@@ -14,7 +14,10 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void init() throws ServletException {
-        Action.add(new LoginAction());
+        //Action.add(new LoginAction());
+        Action.add(new SearchAction());
+        Action.add(new TripPlanAction());
+        Action.add(new AccountAction());
         Action.add(new ShowRoutesOnMapAction());
         
     }

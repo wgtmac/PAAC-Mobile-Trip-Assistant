@@ -17,7 +17,7 @@ public class HttpUtil {
 	private HttpClient mClient;
 	private HttpResponse mRes = null;
 	private String method, url;
-	private JSONObject json, data;
+	private JSONObject data;
 	private static final String errorMessage = "Something wrong!";
 	private static final String invalidKeyMessage = "no such key exists!";
 
@@ -36,9 +36,7 @@ public class HttpUtil {
 			case "POST":
 				mRes = mClient.execute(new HttpPost(url));
 			}
-			json = new JSONObject(EntityUtils.toString(mRes.getEntity()));
-			System.out.println(json);
-			data = json.getJSONObject("bustime-response");
+			data = new JSONObject(EntityUtils.toString(mRes.getEntity()));
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -48,12 +46,11 @@ public class HttpUtil {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-
 	}
-
+	
 
 	private boolean checkValid() {
-		return mRes == null || json == null;
+		return mRes == null || data == null;
 	}
 
 
@@ -73,7 +70,7 @@ public class HttpUtil {
 		if (checkValid())
 			return errorMessage;
 		try {
-			return json.getString("message");
+			return data.getString("message");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,6 +83,10 @@ public class HttpUtil {
 		if (checkValid())
 			return errorMessage;
 		return data.toString();
+	}
+	
+	public JSONObject getData() {
+		return data;
 	}
 
 	public String getDataItem(String key) {
@@ -102,11 +103,5 @@ public class HttpUtil {
 	}
 
 	public static void main(String[] args) {
-		String method = "GET";
-		String server_url = "http://realtime.portauthority.org/bustime/api/v2/";
-		String url = server_url
-				+ "gettime?key=E9FnEmgTkNcyY6nrJAkzXBZeR&format=json";
-		HttpUtil hu = new HttpUtil(method, url);
-		hu.excute();
 	}
 }

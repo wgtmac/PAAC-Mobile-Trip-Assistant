@@ -20,33 +20,7 @@
 		</div>
 
 		<div data-role="content">
-			<h2>Detail for ${ origin } to ${ dest }</h2>
-
-			<ul data-role="listview" data-inset="true">
-
-				<c:forEach var="route" items="${tripresult}">
-					<li data-role="list-divider">${route.getRouteName()}<span
-						class="ui-li-count">Arrive in 15 min Not implemented</span></li>
-					<li><a href="#"> <c:forEach var="busline"
-								items="${route.getRoutes()}">
-								<h2>${busline.getBusline()} (${busline.getDuration()}) :
-									${busline.getDepartTime()}- ${busline.getArrTime()}</h2>
-								<p>
-									Departure: <b>${busline.getOriStop()}</b>
-								</p>
-								<p>
-									Arrival: <b>${busline.getOriStop()}</b>
-								</p>
-
-							</c:forEach>
-							<p class="ui-li-aside"> ${route.getDuration()}</p>
-
-					</a></li>
-
-
-
-				</c:forEach>
-			</ul>
+		
 		</div>
 
 

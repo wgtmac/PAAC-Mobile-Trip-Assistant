@@ -1,10 +1,13 @@
 package controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONException;
 
 import model.HttpUtil;
 import model.PAAC;
@@ -37,12 +40,6 @@ public class AccountAction extends Action {
 //			if (errors.size() != 0) {
 //				return "search.jsp";
 //			}
-		
-		PAAC paac = new PAAC();
-		//paac.getTime();
-		//paac.getRoute();
-		//paac.getVehicles("71A");
-		paac.getStops("71A", "INBOUND");
 			
 
 	
