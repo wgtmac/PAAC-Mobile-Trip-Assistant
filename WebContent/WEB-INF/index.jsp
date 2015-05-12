@@ -11,8 +11,42 @@
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script
 	src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+	
+	
+	
+    <script>
+    
+    
+    var options = {
+    		  enableHighAccuracy: true,
+    		  timeout: 5000,
+    		  maximumAge: 0
+    		};
+
+    		function success(pos) {
+    		  var crd = pos.coords;
+    		  
+    		  document.getElementById("lat").value= crd.latitude;
+    		  document.getElementById("lng").value= crd.longitude;
+    		  document.getElementById("ori").value= "Current Location";
+    		};
+
+    		function error(err) {
+    		  console.warn('ERROR(' + err.code + '): ' + err.message);
+    		};
+
+ 
+    	
+        function init() {
+            if (navigator.geolocation) {
+            	navigator.geolocation.getCurrentPosition(success, error, options);
+            } else {
+                alert("HTML5 GEO Unsupported");
+            }
+        }
+    </script>
 </head>
-<body>
+<body onload="init()">
 
 
 	<div data-role="page" id="home">
@@ -34,37 +68,16 @@
 			<c:forEach var="error" items="${errors}">
 				<h3 style="color: red">${error}</h3>
 			</c:forEach>
-			
-<button onclick="getLocation()">Try</button>
-<script>
-var x=document.getElementById("demo");
-
-function getLocation()
-  {
-  if (navigator.geolocation)
-    {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    }
-  else{x.innerHTML="Geolocation is not supported by this browser.";}
-  }
-function showPosition(position)
-  {
-  x.innerHTML="Latitude: " + position.coords.latitude + 
-  "<br />Longitude: " + position.coords.longitude;  
-  }
-</script>
-
-
 
 			<form method="post" action="tripplan.do">
 				<div data-role="fieldcontain">
 					<label for="origin">Origin</label> <input type="text" name="origin"
-						id="ori" value="Current Location"> <label
+						id="ori"> <label
 						for="destination">Destination</label> <input type="text"
-						name="destination" id="dst"> <input type="hidden"
-						name="lat"> <input type="hidden" name="lng">
-
-
+						name="destination" id="dst"> 
+						
+						<input type="hidden" id="lat" name="lat"> 
+						<input type="hidden" id="lng" name="lng">
 					</br>
 
 					<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"

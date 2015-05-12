@@ -119,7 +119,6 @@ public class PAAC {
 					tran.setEndLng(step.getJSONObject("transit_details").getJSONObject("arrival_stop").getJSONObject("location").get("lng").toString());
 					
 					tran.setBusline(step.getJSONObject("transit_details").getJSONObject("line").getString("short_name"));
-					
 					itinerary.getRoutes().add(tran);
 				}
 			}

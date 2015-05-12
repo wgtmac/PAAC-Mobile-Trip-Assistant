@@ -56,11 +56,18 @@ public class TripPlanAction extends Action {
 			
 			String origin = form.getOrigin();
 			if (origin.equals("Current Location")) {
-				String lat = (String) request.getParameter("lat");
-				String lng = (String) request.getParameter("lng");
+				String addr = null;
+				if ( session.getAttribute("currAddr") == null) {
+					String lat = (String) request.getParameter("lat").trim();
+					String lng = (String) request.getParameter("lng").trim();
+					
+					PAAC p = new PAAC();
+					addr = p.getCurrAddress(Double.parseDouble(lat), Double.parseDouble(lng));
+					session.setAttribute("currAddr", addr);
+				} else {
+					addr = (String) session.getAttribute("currAddr");
+				}
 				
-				PAAC p = new PAAC();
-				String addr = p.getCurrAddress(Double.parseDouble(lat), Double.parseDouble(lng));
 				System.out.println(addr);
 				origin = addr;
 			}

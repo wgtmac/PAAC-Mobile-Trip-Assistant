@@ -37,21 +37,19 @@
 						class="ui-li-count">Arrive in 15 min Not implemented</span></li>
 					<li><a href="#"> <c:forEach var="busline"
 								items="${route.getRoutes()}">
-								<h2>${busline.getBusline()}(${busline.getDuration()}) :
-									${busline.getDepartTime()}- ${busline.getArrTime()}</h2>
+								<p><b>${busline.getBusline()}: ${busline.getDepartTime()} - ${busline.getArrTime()}</b>
+								 (${busline.getDuration()} ${busline.getNumStops()} stops)</p>
 								<p>
 									Departure: <b>${busline.getOriStop()}</b>
 								</p>
 								<p>
 									Arrival: <b>${busline.getOriStop()}</b>
 								</p>
-
+								</br>
 							</c:forEach>
 							<p class="ui-li-aside">${route.getDuration()}</p>
 
 					</a></li>
-
-
 
 				</c:forEach>
 			</ul>
