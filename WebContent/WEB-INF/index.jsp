@@ -35,6 +35,12 @@
     		  console.warn('ERROR(' + err.code + '): ' + err.message);
     		};
 
+    		function addZero(i) {
+    		    if (i < 10) {
+    		        i = "0" + i;
+    		    }
+    		    return i;
+    		}
  
     	
         function init() {
@@ -43,6 +49,23 @@
             } else {
                 alert("HTML5 GEO Unsupported");
             }
+            
+            // get current time
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            
+            // 2015-05-12T15:30
+            var currentdate = date.getFullYear() + "-" + month + "-" + strDate
+                    + "T" + addZero(date.getHours()) + ":" + addZero(date.getMinutes());
+                    
+            document.getElementById("datetime").value = currentdate;
         }
     </script>
 </head>
@@ -83,10 +106,9 @@
 					<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
 						data-expanded-icon="arrow-u">
 						<legend>Date/Time</legend>
-
-						<label for="time">Date / Time</label> <input type="datetime-local"
-							data-clear-btn="true" name="time" id="time" value=""> <label
-							for="type">Type</label> <select name="type" id="type">
+						<label for="datetime">Date / Time</label> 
+						<input type="datetime-local" data-clear-btn="true" name="datetime" id="datetime"> 
+						<label for="type">Type</label> <select name="type" id="type">
 							<option value="dep">Departure</option>
 							<option value="arr">Arrival</option>
 						</select>

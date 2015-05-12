@@ -2,7 +2,11 @@ package controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,11 +75,18 @@ public class TripPlanAction extends Action {
 				System.out.println(addr);
 				origin = addr;
 			}
-
+			
+			// transfer time to milliseconds
+			Calendar calendar1 = Calendar.getInstance();
+			String time = form.getDatetime().trim().replace("T", " ");
+			calendar1.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time));
+		    Calendar calendar2 = Calendar.getInstance();
+		    calendar2.set(1970, 01, 01);
+		    long diff_in_seconds = (calendar1.getTimeInMillis() - calendar2.getTimeInMillis()) / 1000;
 
 			PAAC paac = new PAAC();
 			ArrayList<Itinerary> triplist;
-			triplist = paac.getTripPlan(origin, form.getDestination());
+			triplist = paac.getTripPlan(origin, form.getDestination(), Long.toString(diff_in_seconds), form.getType().equals("dep"));
 
 			if (triplist != null) {
 				request.setAttribute("tripresult", triplist);
@@ -87,7 +98,7 @@ public class TripPlanAction extends Action {
 			}
 
 			return "triplist.jsp";
-		} catch (UnsupportedEncodingException | JSONException | FormBeanException e) {
+		} catch (UnsupportedEncodingException | JSONException | FormBeanException | ParseException e) {
 			errors.add(e.getMessage());
 			return "index.jsp";
 		}

@@ -19,6 +19,18 @@ public class Itinerary {
 	private String endLat;
 	private String endLng;
 	
+	private String predTime;
+	
+	
+	
+	public String getPredTime() {
+		return predTime;
+	}
+
+	public void setPredTime(String v) {
+		this.predTime = v;
+	}
+
 	public String getOrigin() {
 		return origin;
 	}

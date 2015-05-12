@@ -22,6 +22,27 @@ public class Transit {
 	
 	private String numStops;
 	private String busline;
+	private String headSign;
+	
+	private String predTime;
+	
+	
+	
+	public String getPredTime() {
+		return predTime;
+	}
+
+	public void setPredTime(String v) {
+		this.predTime = v;
+	}
+
+	public String getHeadSign() {
+		return headSign;
+	}
+
+	public void setHeadSign(String v) {
+		this.headSign = v;
+	}
 
 	public String getBusline() {
 		return busline;

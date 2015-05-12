@@ -16,6 +16,7 @@
 
 	<div data-role="page" id="triplist">
 		<div data-role="header">
+		    <a href="tripplan.do" data-role="button">Back</a>
 			<h1>Trip</h1>
 		</div>
 
@@ -34,7 +35,7 @@
 
 				<c:forEach var="route" items="${tripresult}">
 					<li data-role="list-divider">${route.getRouteName()}<span
-						class="ui-li-count">Arrive in 15 min Not implemented</span></li>
+						class="ui-li-count"> ${ route.getPredTime() } </span></li>
 					<li><a href="#"> <c:forEach var="busline"
 								items="${route.getRoutes()}">
 								<p><b>${busline.getBusline()}: ${busline.getDepartTime()} - ${busline.getArrTime()}</b>

@@ -3,6 +3,8 @@ package model;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,21 +47,36 @@ public class PAAC {
 	}
 	
 	// get available directions for a route
-	public String getDirections (String route) {
+	public ArrayList<String> getDirections (String route) throws JSONException {
 		String method = "GET";
 		String url = paacServer + "getdirections?" + paacKey + "&rt=" + route;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
-		return hu.getDataString();
+		
+		ArrayList<String> dir = new ArrayList<String>();
+		JSONArray dir_arr = hu.getData().getJSONObject("bustime-response").getJSONArray("directions");
+		
+		for (int i = 0; i < dir_arr.length(); ++i) 
+			dir.add(dir_arr.getJSONObject(i).get("dir").toString());
+
+		return dir;
 	}
 	
 	// get all busstops for a route in one direction
-	public String getStops (String route, String dir) {
+	public HashMap<String, String> getStops (String route, String dir) throws JSONException {
 		String method = "GET";
 		String url = paacServer + "getstops?" + paacKey + "&rt=" + route + "&dir=" + dir;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
-		return hu.getDataString();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		JSONArray stops = hu.getData().getJSONObject("bustime-response").getJSONArray("stops");
+		
+		for (int i = 0; i < stops.length(); ++i) 
+			map.put(stops.getJSONObject(i).get("stpnm").toString().toLowerCase(), 
+					stops.getJSONObject(i).get("stpid").toString());
+		
+		return map;
 	}
 	
 	// get the entire sequence of a bus route (src - dst - src)
@@ -72,25 +89,91 @@ public class PAAC {
 	}
 	
 	// predict the time for a bus to a stop
-	public String getPrediction (String route, String stopid) {
+	public String getPrediction (String route, String stopid) throws JSONException {
+		if (stopid == null) return "N/A";
+		
 		String method = "GET";
-		String url = paacServer + "getpredictions?" + paacKey + "&rt=" + route + "&stpid" + stopid;
+		String url = paacServer + "getpredictions?" + paacKey + "&rt=" + route + "&stpid=" + stopid;
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
-		return hu.getDataString();
+		
+		System.out.println(url);
+		
+		JSONObject message = hu.getData().getJSONObject("bustime-response");
+		
+		if (message.has("error")) {
+			return "N/A";
+		}
+		
+		JSONArray pred = message.getJSONArray("prd");
+		
+		if (pred.length() > 0) {
+			return pred.getJSONObject(0).get("prdctdn").toString();
+		}
+		
+		return "N/A";
 	}
 	
-	public ArrayList<Itinerary> getTripPlan (String ori, String dst) throws UnsupportedEncodingException, JSONException {
+	public String getArrivalPrediciton (Transit tran) throws JSONException {
+		// get all directions for a single route (bus line)
+		ArrayList<String> directions = getDirections(tran.getBusline());
+		
+		// fetch its direction
+		String headsign = tran.getHeadSign().toLowerCase();
+		String dir = "";
+		for (String d : directions) {
+			if (headsign.indexOf(d.toLowerCase()) >= 0) {
+				dir = d;
+				break;
+			}
+		}
+		
+		// get all stops and their stop_id
+		HashMap<String, String> stops = getStops(tran.getBusline(), dir);
+		String stop_name = tran.getOriStop().toLowerCase();
+		
+		if (stop_name.lastIndexOf("st") >= 0 && 
+		    stop_name.lastIndexOf("st") > stop_name.lastIndexOf("ave") ) {
+			int end = stop_name.lastIndexOf("st") + 2;
+			stop_name = stop_name.substring(0, end);
+		}
+		else if (stop_name.lastIndexOf("ave") >= 0 && 
+				stop_name.lastIndexOf("ave") > stop_name.lastIndexOf("st")) {
+			int end = stop_name.lastIndexOf("ave") + 3;
+			stop_name = stop_name.substring(0, end);
+		}
+
+		String stop_id = stops.get(stop_name);
+		if (stop_id == null || stop_id.equals("")) {
+			stop_id = stops.get(stop_name.replace("opp", "at"));
+		}
+		String time = getPrediction(tran.getBusline(), stop_id);
+		return time;
+	}
+
+	
+	public ArrayList<Itinerary> getTripPlan (String ori, String dst, String time, boolean isDepart) throws UnsupportedEncodingException, JSONException {
+		if (isDepart) {
+			time = "&departure_time=" + time;
+		} else {
+			time = "&arrival_time=" + time;
+		}
+		
+		if (!ori.matches("ittsburgh") && !ori.matches("ittsburgh") && !ori.matches("itts")) {
+			ori += " Pittsburgh";
+		}
+		if (!dst.matches("ittsburgh") && !dst.matches("ittsburgh") && !dst.matches("itts")) {
+			dst += " Pittsburgh";
+		}
+		
 		String url = ggmapServer + "&" + ggmapkey 
-				+ "&origin=" + URLEncoder.encode(ori, "UTF-8") 
+				+ time + "&origin=" + URLEncoder.encode(ori, "UTF-8") 
 				+ "&destination=" + URLEncoder.encode(dst, "UTF-8");
 		HttpUtil hu = new HttpUtil("GET", url);
 		hu.excute();
 		
 		ArrayList<Itinerary> list = new ArrayList<Itinerary> ();
-		
 		JSONArray routes = hu.getData().getJSONArray("routes");
-		
 		System.out.println("Route : " + routes.length());
 		
 		for (int i = 0; i < routes.length(); ++i) {
@@ -119,6 +202,11 @@ public class PAAC {
 					tran.setEndLng(step.getJSONObject("transit_details").getJSONObject("arrival_stop").getJSONObject("location").get("lng").toString());
 					
 					tran.setBusline(step.getJSONObject("transit_details").getJSONObject("line").getString("short_name"));
+					tran.setHeadSign(step.getJSONObject("transit_details").get("headsign").toString());
+					
+					PAAC pc = new PAAC();
+					tran.setPredTime(pc.getArrivalPrediciton(tran));
+					
 					itinerary.getRoutes().add(tran);
 				}
 			}
@@ -138,6 +226,12 @@ public class PAAC {
 			itinerary.setEndLat(leg.getJSONObject("end_location").get("lat").toString());
 			itinerary.setStartLng(leg.getJSONObject("start_location").get("lng").toString());
 			itinerary.setStartLng(leg.getJSONObject("end_location").get("lng").toString());
+			
+			if (!itinerary.getRoutes().get(0).getPredTime().equals("N/A")) {
+				itinerary.setPredTime("Arrive in " + itinerary.getRoutes().get(0).getPredTime() + " min");
+			} else {
+				itinerary.setPredTime("N/A");
+			}
 			
 			list.add(itinerary);
 		}

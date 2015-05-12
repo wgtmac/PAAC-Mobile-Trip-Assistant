@@ -8,7 +8,7 @@ import org.mybeans.form.FormBean;
 public class TripPlanForm extends FormBean {
 	private String origin;
 	private String destination;
-	private String time;
+	private String datetime;
 	private String type;
 	private String action;
 
@@ -28,12 +28,12 @@ public class TripPlanForm extends FormBean {
 		this.destination = v.trim();
 	}
 
-	public String getTime() {
-		return time;
+	public String getDatetime() {
+		return datetime;
 	}
 
-	public void setTime(String v) {
-		this.time = v;
+	public void setDatetime(String v) {
+		this.datetime = v;
 	}
 
 	public String getType() {
@@ -74,7 +74,7 @@ public class TripPlanForm extends FormBean {
 			errors.add("Both addresses are required");
 		}
 
-		if (time != null && time.length() != 0) {
+		if (datetime != null && datetime.length() != 0) {
 			if (type == null || type.length() == 0)
 				errors.add("Type of date/time is required");
 		}
