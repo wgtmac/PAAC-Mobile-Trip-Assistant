@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import databean.BusStop;
 import databean.Itinerary;
 import databean.Transit;
 
@@ -248,11 +249,48 @@ public class PAAC {
 		return hu.getData().getJSONArray("results").getJSONObject(0).getString("formatted_address");
 	}
 	
+	public ArrayList<BusStop> getBusStops(String route, boolean isInBound) {
+		ArrayList<BusStop> res = new ArrayList<BusStop>();
+		
+		String method = "GET";
+		String url = paacServer + "getstops?" + paacKey + "&rt=" + route + "&dir=" + (isInBound ? "INBOUND" : "OUTBOUND");
+		
+		HttpUtil hu = new HttpUtil(method, url);
+		hu.excute();
+		try {
+			JSONArray stops = hu.getData().getJSONObject("bustime-response").getJSONArray("stops");
+			for (int i = 0; i < stops.length(); i++) {
+				JSONObject stop = stops.getJSONObject(i);
+				BusStop tmp = new BusStop();
+				tmp.setStopId(stop.getString("stpid"));
+				tmp.setStopName(stop.getString("stpnm"));
+				tmp.setLat(stop.get("lat").toString());
+				tmp.setLng(stop.get("lon").toString());
+				res.add(tmp);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		try {
 			URLEncoder.encode("", "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+		}
+		
+		//unit test for getBusStops function
+		String route = "61C";
+		boolean isInBound = true;
+		PAAC p = new PAAC();
+		ArrayList<BusStop> res = p.getBusStops(route, isInBound);
+		for(BusStop bs : res) {
+			System.out.println(bs.getStopId() + " " + bs.getStopName() + " " + bs.getLat() + " " + bs.getLng());
 		}
 
 	}

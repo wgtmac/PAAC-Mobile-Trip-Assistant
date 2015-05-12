@@ -94,11 +94,10 @@
 
 			<form method="post" action="tripplan.do">
 				<div data-role="fieldcontain">
-					<label for="origin">Origin</label> <input type="text" name="origin"
-						id="ori"> <label
-						for="destination">Destination</label> <input type="text"
-						name="destination" id="dst"> 
-						
+					<label for="origin">Origin</label> 
+					<input type="text" name="origin" id="ori"> 
+					<label for="destination">Destination</label> 
+					<input type="text" name="destination" id="dst"> 
 						<input type="hidden" id="lat" name="lat"> 
 						<input type="hidden" id="lng" name="lng">
 					</br>
