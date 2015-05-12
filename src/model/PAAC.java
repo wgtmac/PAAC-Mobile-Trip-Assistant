@@ -98,19 +98,6 @@ public class PAAC {
 			JSONArray steps = leg.getJSONArray("steps");
 			
 			Itinerary itinerary = new Itinerary();
-			itinerary.setOrigin(ori);
-			itinerary.setDestination(dst);
-			itinerary.setArrTime(leg.getJSONObject("arrival_time").getString("text"));
-			itinerary.setDepartTime(leg.getJSONObject("departure_time").getString("text"));
-			itinerary.setDistance(leg.getJSONObject("distance").getString("text"));
-			itinerary.setDuration(leg.getJSONObject("duration").getString("text"));
-			itinerary.setStartAddr(leg.getString("start_address"));
-			itinerary.setEndAddr(leg.getString("end_address"));
-			itinerary.setStartLat(leg.getJSONObject("start_location").get("lat").toString());
-			itinerary.setEndLat(leg.getJSONObject("end_location").get("lat").toString());
-			itinerary.setStartLng(leg.getJSONObject("start_location").get("lng").toString());
-			itinerary.setStartLng(leg.getJSONObject("end_location").get("lng").toString());
-			
 
 			for (int j = 0; j < steps.length(); ++j) {
 				JSONObject step = steps.getJSONObject(j);
@@ -119,10 +106,6 @@ public class PAAC {
 					
 					tran.setDistance(step.getJSONObject("distance").getString("text"));
 					tran.setDuration(step.getJSONObject("duration").getString("text"));
-//					tran.setStartLat(step.getJSONObject("start_location").getString("lat"));
-//					tran.setStartLng(step.getJSONObject("start_location").getString("lng"));
-//					tran.setEndLat(step.getJSONObject("end_location").getString("lat"));
-//					tran.setEndLng(step.getJSONObject("end_location").getString("lng"));
 					
 					tran.setOriStop(step.getJSONObject("transit_details").getJSONObject("departure_stop").getString("name"));
 					tran.setDestStop(step.getJSONObject("transit_details").getJSONObject("arrival_stop").getString("name"));
@@ -140,6 +123,23 @@ public class PAAC {
 					itinerary.getRoutes().add(tran);
 				}
 			}
+			
+			if (itinerary.getRoutes().isEmpty())
+				continue;
+			
+			itinerary.setOrigin(ori);
+			itinerary.setDestination(dst);
+			itinerary.setArrTime(leg.getJSONObject("arrival_time").getString("text"));
+			itinerary.setDepartTime(leg.getJSONObject("departure_time").getString("text"));
+			itinerary.setDistance(leg.getJSONObject("distance").getString("text"));
+			itinerary.setDuration(leg.getJSONObject("duration").getString("text"));
+			itinerary.setStartAddr(leg.getString("start_address"));
+			itinerary.setEndAddr(leg.getString("end_address"));
+			itinerary.setStartLat(leg.getJSONObject("start_location").get("lat").toString());
+			itinerary.setEndLat(leg.getJSONObject("end_location").get("lat").toString());
+			itinerary.setStartLng(leg.getJSONObject("start_location").get("lng").toString());
+			itinerary.setStartLng(leg.getJSONObject("end_location").get("lng").toString());
+			
 			list.add(itinerary);
 		}
 		
