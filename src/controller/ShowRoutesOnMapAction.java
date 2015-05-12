@@ -24,8 +24,5 @@ public class ShowRoutesOnMapAction extends Action {
 //    	return "showSelectedRouteOnMap.jsp";
 //    	return "testMap2.jsp";
 //    	return "showMap.html";
-    	
-    	
-//    	http://maps.googleapis.com/maps/api/directions/json?origin=5860+Bartlett+St+Pittsburgh&destination=5000+Forbes+Ave+Pittsburgh&sensor=false&departure_time&mode=transit
     }
 }

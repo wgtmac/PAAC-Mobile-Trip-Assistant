@@ -53,11 +53,12 @@ public class SearchForm extends FormBean {
 				&& !action.equals("Search Nearby"))
 			errors.add("Invalid button");
 
-		if (action.equals("Search Bus Line")) {
-			if ((busline == null || busline.length() == 0)) {
-				errors.add("Bus line is required");
-			}
-		} else if (action.equals("Search Bus Stop")) {
+//		if (action.equals("Search Bus Line")) {
+//			if ((busline == null || busline.length() == 0)) {
+//				errors.add("Bus line is required");
+//			}
+//		} else 
+		if (action.equals("Search Bus Stop")) {
 			if ((busstop == null || busstop.length() == 0)) {
 				errors.add("Bus stop is required");
 			}

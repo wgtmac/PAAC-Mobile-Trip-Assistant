@@ -46,14 +46,13 @@
 				</fieldset>
 			</form>
 
-			<form method="post" action="search.do">
-				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
-					data-expanded-icon="arrow-u">
+			<form method="post" action="searchBusLine.do">
+				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
 					<legend>Bus Line</legend>
 					<p>Search degsinated bus line</p>
-					<label for="busline">Bus Line Name</label> <input type="text"
-						name="busline" id="busline"> <input type="submit"
-						data-inline="true" name="action" value="Search Bus Line">
+					<label for="busline">Bus Line Name</label> 
+					<input type="text" name="busline" id="busline"> 
+					<input type="submit" data-inline="true" name="action" value="Search Bus Line">
 				</fieldset>
 			</form>
 

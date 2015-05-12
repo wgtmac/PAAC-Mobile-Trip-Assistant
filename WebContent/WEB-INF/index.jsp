@@ -117,8 +117,6 @@
 				<input type="submit" data-inline="false" name="action" value="Go">
 			</form>
 			
-			
-			<a href="showRoutesOnMap.do">Search</a>
 		</div>
 
 		<div data-role="footer" data-position="fixed">
