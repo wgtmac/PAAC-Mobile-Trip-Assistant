@@ -40,7 +40,7 @@ public class TripPlanAction extends Action {
 		request.setAttribute("errors", errors);
 
 		try {
-
+			
 			TripPlanForm form = formBeanFactory.create(request);
 			request.setAttribute("form", form);
 
@@ -53,10 +53,22 @@ public class TripPlanAction extends Action {
 			if (errors.size() != 0) {
 				return "index.jsp";
 			}
+			
+			String origin = form.getOrigin();
+			if (origin.equals("Current Location")) {
+				String lat = (String) request.getParameter("lat");
+				String lng = (String) request.getParameter("lng");
+				
+				PAAC p = new PAAC();
+				String addr = p.getCurrAddress(Double.parseDouble(lat), Double.parseDouble(lng));
+				System.out.println(addr);
+				origin = addr;
+			}
+
 
 			PAAC paac = new PAAC();
 			ArrayList<Itinerary> triplist;
-			triplist = paac.getTripPlan(form.getOrigin(), form.getDestination());
+			triplist = paac.getTripPlan(origin, form.getDestination());
 
 			if (triplist != null) {
 				request.setAttribute("tripresult", triplist);

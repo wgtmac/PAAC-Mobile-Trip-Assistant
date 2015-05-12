@@ -34,12 +34,38 @@
 			<c:forEach var="error" items="${errors}">
 				<h3 style="color: red">${error}</h3>
 			</c:forEach>
+			
+<button onclick="getLocation()">Try</button>
+<script>
+var x=document.getElementById("demo");
+
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
+function showPosition(position)
+  {
+  x.innerHTML="Latitude: " + position.coords.latitude + 
+  "<br />Longitude: " + position.coords.longitude;  
+  }
+</script>
+
+
 
 			<form method="post" action="tripplan.do">
 				<div data-role="fieldcontain">
 					<label for="origin">Origin</label> <input type="text" name="origin"
-						id="ori"> <label for="destination">Destination</label> <input
-						type="text" name="destination" id="dst"> </br>
+						id="ori" value="Current Location"> <label
+						for="destination">Destination</label> <input type="text"
+						name="destination" id="dst"> <input type="hidden"
+						name="lat"> <input type="hidden" name="lng">
+
+
+					</br>
 
 					<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
 						data-expanded-icon="arrow-u">

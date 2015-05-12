@@ -146,6 +146,15 @@ public class PAAC {
 		return list;
 	}
 	
+	public String getCurrAddress (double lat, double lng) throws JSONException {
+		String method = "GET";
+		String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+		Double.toString(lat) + "," + Double.toString(lng) + "&sensor=true_or_false";
+		HttpUtil hu = new HttpUtil(method, url);
+		hu.excute();
+		return hu.getData().getJSONArray("results").getJSONObject(0).getString("formatted_address");
+	}
+	
 	public static void main(String[] args) {
 		try {
 			URLEncoder.encode("", "UTF-8");
