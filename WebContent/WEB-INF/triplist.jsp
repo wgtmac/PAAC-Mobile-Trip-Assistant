@@ -24,12 +24,20 @@
 
 			<ul data-role="listview" data-inset="true">
 
+				<c:choose>
+					<c:when test="${ tripresult.size() == 0 }">
+                    <li>
+                       <h1>No available buses</h1>
+                    </li>
+					</c:when>
+				</c:choose>
+
 				<c:forEach var="route" items="${tripresult}">
 					<li data-role="list-divider">${route.getRouteName()}<span
 						class="ui-li-count">Arrive in 15 min Not implemented</span></li>
 					<li><a href="#"> <c:forEach var="busline"
 								items="${route.getRoutes()}">
-								<h2>${busline.getBusline()} (${busline.getDuration()}) :
+								<h2>${busline.getBusline()}(${busline.getDuration()}) :
 									${busline.getDepartTime()}- ${busline.getArrTime()}</h2>
 								<p>
 									Departure: <b>${busline.getOriStop()}</b>
@@ -39,7 +47,7 @@
 								</p>
 
 							</c:forEach>
-							<p class="ui-li-aside"> ${route.getDuration()}</p>
+							<p class="ui-li-aside">${route.getDuration()}</p>
 
 					</a></li>
 
