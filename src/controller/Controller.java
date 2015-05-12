@@ -75,6 +75,12 @@ public class Controller extends HttpServlet {
 	   		return;
     	}
     	
+    	if (nextPage.endsWith(".html")) {
+	   		RequestDispatcher d = request.getRequestDispatcher("WEB-INF/" + nextPage);
+	   		d.forward(request,response);
+	   		return;
+    	}
+    	
 		throw new ServletException(Controller.class.getName()
 				+ ".sendToNextPage(\"" + nextPage + "\"): invalid extension.");
 	}
