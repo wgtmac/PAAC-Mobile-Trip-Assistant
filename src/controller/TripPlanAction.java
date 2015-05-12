@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -77,16 +78,19 @@ public class TripPlanAction extends Action {
 			}
 			
 			// transfer time to milliseconds
-			Calendar calendar1 = Calendar.getInstance();
-			String time = form.getDatetime().trim().replace("T", " ");
-			calendar1.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time));
-		    Calendar calendar2 = Calendar.getInstance();
-		    calendar2.set(1970, 01, 01);
-		    long diff_in_seconds = (calendar1.getTimeInMillis() - calendar2.getTimeInMillis()) / 1000;
+			String diff_in_seconds = "";
+			if (!form.getDatetime().isEmpty()) {
+				Calendar calendar1 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+				String time = form.getDatetime().trim().replace("T", " ");
+				calendar1.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(time));
+			    Calendar calendar2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			    calendar2.set(1970, Calendar.JANUARY, 1);
+			    diff_in_seconds = Long.toString((calendar1.getTimeInMillis() - calendar2.getTimeInMillis()) / 1000);
+			}
 
 			PAAC paac = new PAAC();
 			ArrayList<Itinerary> triplist;
-			triplist = paac.getTripPlan(origin, form.getDestination(), Long.toString(diff_in_seconds), form.getType().equals("dep"));
+			triplist = paac.getTripPlan(origin, form.getDestination(), diff_in_seconds, form.getType().equals("dep"));
 
 			if (triplist != null) {
 				request.setAttribute("tripresult", triplist);

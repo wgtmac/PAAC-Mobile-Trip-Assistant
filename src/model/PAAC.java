@@ -108,6 +108,7 @@ public class PAAC {
 		JSONArray pred = message.getJSONArray("prd");
 		
 		if (pred.length() > 0) {
+			System.out.println(pred.getJSONObject(0).get("prdctdn").toString());
 			return pred.getJSONObject(0).get("prdctdn").toString();
 		}
 		
@@ -153,10 +154,12 @@ public class PAAC {
 
 	
 	public ArrayList<Itinerary> getTripPlan (String ori, String dst, String time, boolean isDepart) throws UnsupportedEncodingException, JSONException {
-		if (isDepart) {
-			time = "&departure_time=" + time;
-		} else {
-			time = "&arrival_time=" + time;
+		if (!time.isEmpty()) {
+			if (isDepart) {
+				time = "&departure_time=" + time;
+			} else {
+				time = "&arrival_time=" + time;
+			}
 		}
 		
 		if (!ori.matches("ittsburgh") && !ori.matches("ittsburgh") && !ori.matches("itts")) {
