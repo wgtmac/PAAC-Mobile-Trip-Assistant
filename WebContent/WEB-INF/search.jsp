@@ -17,7 +17,7 @@
 
 	<div data-role="page" id="search">
 		<div data-role="header">
-			<h1>Search</h1>
+			<h1>Search Busline</h1>
 		</div>
 
 		<div data-role="content">
@@ -35,34 +35,13 @@
 			</c:forEach>
 
 
-			<form method="post" action="search.do">
-				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
-					data-expanded-icon="arrow-u">
-					<legend>Bus Stop</legend>
-					<p>Search degsinated bus stop</p>
-					<label for="busstop">Bus Stop Name</label> <input type="text"
-						name="busstop" id="busstop"> <input type="submit"
-						data-inline="true" name="action" value="Search Bus Stop">
-				</fieldset>
-			</form>
 
 			<form method="post" action="searchBusLine.do">
-				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
-					<legend>Bus Line</legend>
-					<p>Search degsinated bus line</p>
+				<fieldset>
+					<h1>Get all bus stops</h1>
 					<label for="busline">Bus Line Name</label> 
 					<input type="text" name="busline" id="busline"> 
-					<input type="submit" data-inline="true" name="action" value="Search Bus Line">
-				</fieldset>
-			</form>
-
-			<form method="post" action="search.do">
-				<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
-					data-expanded-icon="arrow-u">
-					<legend>Nearby</legend>
-					<p>Search bus stops and bus lines nearby</p>
-					<input type="submit" data-inline="true" name="action"
-						value="Search Nearby">
+					<input type="submit" name="action" value="Search Bus Line">
 				</fieldset>
 			</form>
 

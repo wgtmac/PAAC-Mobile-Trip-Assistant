@@ -40,7 +40,7 @@
 					<li><a href="showRoutesOnMap.do" data-ajax="false"> <c:forEach var="busline"
 								items="${route.getRoutes()}">
 								<p><b>${busline.getBusline()}: ${busline.getDepartTime()} - ${busline.getArrTime()}</b>
-								 (${busline.getDuration()} ${busline.getNumStops()} stops)</p>
+								 (${busline.getDuration()} / ${busline.getNumStops()} stops)</p>
 								<p>
 									Departure: <b>${busline.getOriStop()}</b>
 								</p>
@@ -54,6 +54,14 @@
 					</a></li>
 
 				</c:forEach>
+				
+				<li data-role="list-divider">UberX<span
+                        class="ui-li-count"> Pickup in 5 min</span>
+                </li>
+                <li>
+                <p><h1>In a hurry? Try Uber!</h1></p>
+				<a href="uber.do" data-role="button" data-rel="dialog" data-theme="c">Request A UberX</a>
+				</li>
 			</ul>
 		</div>
 
@@ -66,30 +74,6 @@
 					<li><a href="account.do" data-icon="info">Account</a></li>
 				</ul>
 			</div>
-		</div>
-	</div>
-
-	<div data-role="page" id="login">
-		<div data-role="header">
-			<h1>Login</h1>
-		</div>
-
-		<div data-role="content">
-			<p>Login form here</p>
-			Do not have an account? <a href="#register" data-rel="dialog">Register</a>
-			here!
-		</div>
-	</div>
-
-	<div data-role="page" id="register">
-		<div data-role="header">
-			<h1>Register</h1>
-		</div>
-
-		<div data-role="content">
-			<p>register form here</p>
-			Already have an account? <a href="#login" data-rel="dialog">Login</a>
-			here!
 		</div>
 	</div>
 

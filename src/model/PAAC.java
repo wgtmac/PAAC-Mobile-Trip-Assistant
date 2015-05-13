@@ -108,11 +108,14 @@ public class PAAC {
 		
 		JSONArray pred = message.getJSONArray("prd");
 		
+		String p = "DUE";
 		if (pred.length() > 0) {
-			return pred.getJSONObject(0).get("prdctdn").toString();
+			for (int i = 0; i < pred.length() && p.equals("DUE"); ++i) {
+				p = pred.getJSONObject(0).get("prdctdn").toString();
+			}
 		}
 		
-		return "N/A";
+		return p.equals("DUE") ? "N/A" : p;
 	}
 	
 	public String getArrivalPrediciton (Transit tran) throws JSONException {
@@ -154,10 +157,12 @@ public class PAAC {
 
 	
 	public ArrayList<Itinerary> getTripPlan (String ori, String dst, String time, boolean isDepart) throws UnsupportedEncodingException, JSONException {
-		if (isDepart) {
-			time = "&departure_time=" + time;
-		} else {
-			time = "&arrival_time=" + time;
+		if (!time.isEmpty()) {
+			if (isDepart) {
+				time = "&departure_time=" + time;
+			} else {
+				time = "&arrival_time=" + time;
+			}
 		}
 		
 		if (!ori.matches("ittsburgh") && !ori.matches("ittsburgh") && !ori.matches("itts")) {
