@@ -37,7 +37,7 @@
 					<li data-role="list-divider">${route.getRouteName()}<span
 						class="ui-li-count"> ${ route.getPredTime() } </span>
 					</li>
-					<li><a href="showRoutesOnMap.do"> <c:forEach var="busline"
+					<li><a href="showRoutesOnMap.do" data-ajax="false"> <c:forEach var="busline"
 								items="${route.getRoutes()}">
 								<p><b>${busline.getBusline()}: ${busline.getDepartTime()} - ${busline.getArrTime()}</b>
 								 (${busline.getDuration()} / ${busline.getNumStops()} stops)</p>
