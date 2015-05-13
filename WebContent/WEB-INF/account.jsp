@@ -19,21 +19,36 @@
 		<div data-role="header">
 			<a href="#" data-role="button">Sign Out</a>
 			<h1>Account</h1>
-			<!--> <a href="#login" data-role="button" data-rel="dialog">Login/Register</a> <-->
 		</div>
 
 		<div data-role="content">
 			<div class="content-primary">
-				<h2>Some text here</h2>
-			</div>
-			<div class="content-secondary">
-				<ul data-role="listview">
-					<li><a href="#">Setting</a></li>
-					<li><a href="#">Favorites</a></li>
-					<li><a href="#">About</a></li>
-				</ul>
+
+				<div data-role="collapsible-set">
+					<div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+						<h2>Setting</h2>
+					</div>
+					<div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+						<h2>Favorite</h2>
+						<p>Show favorites here</p>
+					</div>
+					<div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+						<h2>History</h2>
+						<p>Show history here</p>
+					</div>
+					<div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+						<h2>About</h2>
+						<p>This App is designed and implemented by Team 7. 
+						Frontend is JQuery Mobile. Backend is J2EE. Google Map API and PAAC Realtime API 
+						are used to fetch data.</p>
+						<p>All copyright reserved.</p>
+					</div>
+				</div>
 			</div>
 		</div>
+
+
+
 
 
 		<div data-role="footer" data-position="fixed">

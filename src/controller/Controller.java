@@ -20,6 +20,7 @@ public class Controller extends HttpServlet {
         Action.add(new AccountAction());
         Action.add(new ShowRoutesOnMapAction());
         Action.add(new SearchBusLineAction());
+        Action.add(new RequestUberAction());
         
     }
 
