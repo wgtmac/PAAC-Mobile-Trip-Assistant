@@ -67,6 +67,12 @@
                     
             document.getElementById("datetime").value = currentdate;
         }
+        
+        function exchange() {
+        	var tmp = document.getElementById("ori").value;
+        	document.getElementById("ori").value = document.getElementById("dst").value;
+        	document.getElementById("dst").value = tmp;
+        }
     </script>
 </head>
 <body onload="init()">
@@ -76,7 +82,6 @@
 		<div data-role="header">
 			<h1>Trip Planner</h1>
 		</div>
-
 
 		<div data-role="content">
 
@@ -101,7 +106,7 @@
 						<input type="hidden" id="lat" name="lat"> 
 						<input type="hidden" id="lng" name="lng">
 					</br>
-
+					
 					<fieldset data-role="collapsible" data-collapsed-icon="arrow-d"
 						data-expanded-icon="arrow-u">
 						<legend>Date/Time</legend>
@@ -117,6 +122,7 @@
 				<input type="submit" data-inline="false" name="action" value="Go">
 			</form>
 			
+			<button onclick="exchange()" id="exch">Exchange Origin & Destination</button>
 		</div>
 
 		<div data-role="footer" data-position="fixed">
