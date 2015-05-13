@@ -96,6 +96,8 @@
 			<c:forEach var="error" items="${errors}">
 				<h3 style="color: red">${error}</h3>
 			</c:forEach>
+			
+			<button onclick="exchange()" id="exch">Swap Addresses</button>
 
 			<form method="post" action="tripplan.do">
 				<div data-role="fieldcontain">
@@ -121,8 +123,6 @@
 				</div>
 				<input type="submit" data-inline="false" name="action" value="Go">
 			</form>
-			
-			<button onclick="exchange()" id="exch">Exchange Origin & Destination</button>
 		</div>
 
 		<div data-role="footer" data-position="fixed">
