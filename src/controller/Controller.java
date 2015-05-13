@@ -21,7 +21,8 @@ public class Controller extends HttpServlet {
         Action.add(new ShowRoutesOnMapAction());
         Action.add(new SearchBusLineAction());
         Action.add(new RequestUberAction());
-        
+        Action.add(new AddFavoriteAction());
+        Action.add(new FavoriteAction());
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

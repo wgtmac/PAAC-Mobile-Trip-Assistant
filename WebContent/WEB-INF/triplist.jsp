@@ -18,10 +18,11 @@
 		<div data-role="header">
 		    <a href="tripplan.do" data-role="button">Back</a>
 			<h1>Trip</h1>
+			<a href="addfavorite.do" data-role="button">Add to Favorite</a>
 		</div>
 
 		<div data-role="content">
-			<h2>Detail for ${ origin } to ${ dest }</h2>
+			<h2>${ origin } --> ${ dest }</h2>
 
 			<ul data-role="listview" data-inset="true">
 

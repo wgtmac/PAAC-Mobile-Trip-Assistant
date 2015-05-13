@@ -30,11 +30,17 @@
 					</div>
 					<div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
 						<h2>Favorite</h2>
-						<p>Show favorites here</p>
-					</div>
-					<div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
-						<h2>History</h2>
-						<p>Show history here</p>
+						
+			
+				    <ul data-role="listview" data-inset="true">
+                        <c:forEach var="fav" items="${ favorite.values() }">
+                            <li><a href="favorite.do?ori=${fav[0]}&dst=${fav[1]}" data-ajax="false">
+                              From ${ fav[0] } </br>
+                              To ${ fav[1] }
+                            </a></li>
+                        </c:forEach>
+                    </ul>
+						
 					</div>
 					<div data-role="collapsible" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
 						<h2>About</h2>

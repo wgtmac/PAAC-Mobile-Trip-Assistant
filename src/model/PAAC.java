@@ -98,7 +98,7 @@ public class PAAC {
 		HttpUtil hu = new HttpUtil(method, url);
 		hu.excute();
 		
-		System.out.println(url);
+		//System.out.println(url);
 		
 		JSONObject message = hu.getData().getJSONObject("bustime-response");
 		

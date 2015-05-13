@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -39,10 +40,15 @@ public class TripPlanAction extends Action {
 		return "tripplan.do";
 	}
 
+	@SuppressWarnings("unchecked")
 	public String perform(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		List<String> errors = new ArrayList<String>();
 		request.setAttribute("errors", errors);
+		
+		session.removeAttribute("tripresult");
+		session.removeAttribute("origin");
+		session.removeAttribute("dest");
 
 		try {
 			
@@ -60,7 +66,24 @@ public class TripPlanAction extends Action {
 			}
 			
 			String origin = form.getOrigin();
+			String dest = form.getDestination();
 			if (origin.equals("Current Location")) {
+				String addr = null;
+				if ( session.getAttribute("currAddr") == null) {
+					String lat = (String) request.getParameter("lat").trim();
+					String lng = (String) request.getParameter("lng").trim();
+					
+					PAAC p = new PAAC();
+					addr = p.getCurrAddress(Double.parseDouble(lat), Double.parseDouble(lng));
+					session.setAttribute("currAddr", addr);
+				} else {
+					addr = (String) session.getAttribute("currAddr");
+				}
+				
+				//System.out.println(
+				origin = addr;
+			}
+			if (dest.equals("Current Location")) {
 				String addr = null;
 				if ( session.getAttribute("currAddr") == null) {
 					String lat = (String) request.getParameter("lat").trim();
@@ -90,12 +113,12 @@ public class TripPlanAction extends Action {
 
 			PAAC paac = new PAAC();
 			ArrayList<Itinerary> triplist;
-			triplist = paac.getTripPlan(origin, form.getDestination(), diff_in_seconds, form.getType().equals("dep"));
-
+			triplist = paac.getTripPlan(origin, dest, diff_in_seconds, form.getType().equals("dep"));
+			
 			if (triplist != null) {
-				request.setAttribute("tripresult", triplist);
-				request.setAttribute("origin", form.getOrigin());
-				request.setAttribute("dest", form.getDestination());
+				session.setAttribute("tripresult", triplist);
+				session.setAttribute("origin", form.getOrigin());
+				session.setAttribute("dest", form.getDestination());
 			} else {
 				errors.add("Not valid input");
 				return "index.jsp";
