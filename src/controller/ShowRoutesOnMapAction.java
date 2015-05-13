@@ -21,8 +21,6 @@ public class ShowRoutesOnMapAction extends Action {
     	request.setAttribute("destLng", destLng);
     	
     	return "showRoutesOnMap.jsp";
-//    	return "showSelectedRouteOnMap.jsp";
-//    	return "testMap2.jsp";
-//    	return "showMap.html";
+//    	return "map.html";
     }
 }
