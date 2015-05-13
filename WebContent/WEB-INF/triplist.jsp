@@ -40,7 +40,7 @@
 					<li><a href="showRoutesOnMap.do"> <c:forEach var="busline"
 								items="${route.getRoutes()}">
 								<p><b>${busline.getBusline()}: ${busline.getDepartTime()} - ${busline.getArrTime()}</b>
-								 (${busline.getDuration()} ${busline.getNumStops()} stops)</p>
+								 (${busline.getDuration()} / ${busline.getNumStops()} stops)</p>
 								<p>
 									Departure: <b>${busline.getOriStop()}</b>
 								</p>

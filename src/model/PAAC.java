@@ -108,12 +108,14 @@ public class PAAC {
 		
 		JSONArray pred = message.getJSONArray("prd");
 		
+		String p = "DUE";
 		if (pred.length() > 0) {
-			System.out.println(pred.getJSONObject(0).get("prdctdn").toString());
-			return pred.getJSONObject(0).get("prdctdn").toString();
+			for (int i = 0; i < pred.length() && p.equals("DUE"); ++i) {
+				p = pred.getJSONObject(0).get("prdctdn").toString();
+			}
 		}
 		
-		return "N/A";
+		return p.equals("DUE") ? "N/A" : p;
 	}
 	
 	public String getArrivalPrediciton (Transit tran) throws JSONException {

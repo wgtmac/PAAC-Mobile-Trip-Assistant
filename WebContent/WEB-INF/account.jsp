@@ -19,7 +19,7 @@
 		<div data-role="header">
 			<a href="#" data-role="button">Sign Out</a>
 			<h1>Account</h1>
-			<a href="#login" data-role="button" data-rel="dialog">Login/Register</a>
+			<!--> <a href="#login" data-role="button" data-rel="dialog">Login/Register</a> <-->
 		</div>
 
 		<div data-role="content">
