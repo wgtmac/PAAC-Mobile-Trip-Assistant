@@ -131,9 +131,9 @@
 		<div data-role="footer" data-position="fixed">
 			<div data-role="navbar">
 				<ul>
-					<li><a href="search.do" data-icon="search">Search</a></li>
-					<li><a href="tripplan.do" data-icon="home">Home</a></li>
-					<li><a href="account.do" data-icon="info">Account</a></li>
+                    <li><a href="search.do" data-icon="search" data-ajax="false">Search</a></li>
+                    <li><a href="tripplan.do" data-icon="home" data-ajax="false">Home</a></li>
+                    <li><a href="account.do" data-icon="info" data-ajax="false">Account</a></li>
 				</ul>
 			</div>
 		</div>
