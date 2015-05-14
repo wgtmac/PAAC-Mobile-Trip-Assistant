@@ -73,6 +73,8 @@ public class TripPlanAction extends Action {
 					String lat = (String) request.getParameter("lat").trim();
 					String lng = (String) request.getParameter("lng").trim();
 					
+					System.out.println("Location: " + lat + " " + lng);
+					
 					PAAC p = new PAAC();
 					addr = p.getCurrAddress(Double.parseDouble(lat), Double.parseDouble(lng));
 					session.setAttribute("currAddr", addr);
